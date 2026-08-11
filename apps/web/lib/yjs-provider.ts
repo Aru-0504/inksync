@@ -1,5 +1,10 @@
 import * as Y from 'yjs'
+import { WebsocketProvider } from 'y-websocket'
 
-// A single shared Y.Doc for now — this is our CRDT source of truth.
-// Later (Phase 2), this same doc gets synced across clients over WebSocket.
 export const ydoc = new Y.Doc()
+
+export const provider = new WebsocketProvider(
+  'ws://localhost:1234',
+  'inksync-demo-room',
+  ydoc
+)
