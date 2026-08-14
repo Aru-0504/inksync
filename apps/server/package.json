@@ -11,6 +11,8 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "dotenv": "^17.4.2",
+    "pg": "^8.23.0",
     "ws": "^8.21.3",
     "y-websocket": "^1.5.4"
   }
