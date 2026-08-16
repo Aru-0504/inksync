@@ -5,19 +5,19 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
 })
 
-// Creates the table if it doesn't already exist — safe to run every time the server starts
 async function initDB() {
   await pool.query(`
     CREATE TABLE IF NOT EXISTS documents (
       room_id TEXT PRIMARY KEY,
-      state BYTEA NOT NULL,
+      title TEXT NOT NULL DEFAULT 'Untitled Document',
+      state BYTEA,
+      created_at TIMESTAMPTZ DEFAULT now(),
       updated_at TIMESTAMPTZ DEFAULT now()
     )
   `)
   console.log('Database ready — documents table exists')
 }
 
-// Loads a saved snapshot for a room, if one exists
 async function loadDocState(roomId) {
   const result = await pool.query(
     'SELECT state FROM documents WHERE room_id = $1',
@@ -26,7 +26,6 @@ async function loadDocState(roomId) {
   return result.rows[0]?.state || null
 }
 
-// Saves (or updates) a room's current document state
 async function saveDocState(roomId, state) {
   await pool.query(
     `INSERT INTO documents (room_id, state, updated_at)
@@ -37,4 +36,20 @@ async function saveDocState(roomId, state) {
   )
 }
 
-module.exports = { initDB, loadDocState, saveDocState }
+async function createDocument(roomId, title) {
+  await pool.query(
+    `INSERT INTO documents (room_id, title) VALUES ($1, $2)`,
+    [roomId, title]
+  )
+}
+
+async function listDocuments() {
+  const result = await pool.query(
+    `SELECT room_id, title, created_at, updated_at
+     FROM documents
+     ORDER BY updated_at DESC`
+  )
+  return result.rows
+}
+
+module.exports = { initDB, loadDocState, saveDocState, createDocument, listDocuments }
