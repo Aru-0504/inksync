@@ -2,16 +2,22 @@ import * as Y from 'yjs'
 import { WebsocketProvider } from 'y-websocket'
 import { IndexeddbPersistence } from 'y-indexeddb'
 
-export const ydoc = new Y.Doc()
+export interface YjsProviders {
+  ydoc: Y.Doc
+  provider: WebsocketProvider
+  persistence: IndexeddbPersistence
+}
 
-export const provider = new WebsocketProvider(
-  'ws://localhost:1234',
-  'inksync-demo-room',
-  ydoc
-)
+export function createProviders(roomId: string): YjsProviders {
+  const ydoc = new Y.Doc()
 
-export const persistence = new IndexeddbPersistence('inksync-demo-room', ydoc)
+  const wsUrl = process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:1234'
 
-persistence.on('synced', () => {
-  console.log('Content loaded from local IndexedDB storage')
-})
+  const provider = new WebsocketProvider(wsUrl, roomId, ydoc, {
+    connect: true,
+  })
+
+  const persistence = new IndexeddbPersistence(`inksync-doc-${roomId}`, ydoc)
+
+  return { ydoc, provider, persistence }
+}

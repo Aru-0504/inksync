@@ -2,3 +2,4 @@ node_module/
 .next/ 
 .env 
 .env.local 
+powershell.cmd

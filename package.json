@@ -1,0 +1,11 @@
+{
+  "name": "inksync",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Multiplayer real-time collaborative document editor with CRDT convergence, dumb WebSocket relay, and offline persistence.",
+  "scripts": {
+    "server": "node apps/server/server.js",
+    "web": "npm --prefix apps/web run dev",
+    "build:web": "npm --prefix apps/web run build"
+  }
+}
