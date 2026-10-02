@@ -1,10 +1,10 @@
-# InkSync 🖋️
+# InkSync 
 
 > Real-time multiplayer collaborative document editor powered by **CRDTs (Conflict-free Replicated Data Types)**, an **uncoordinated dumb WebSocket relay**, and **offline-first local persistence**.
 
 ---
 
-## 💡 The Core Engineering Concept
+## The Core Engineering Concept
 
 Traditional collaborative apps (like Google Docs) use **Operational Transformation (OT)**, which requires an authoritative centralized server to sequence, transform, and arbitrate competing keystrokes.
 
@@ -16,7 +16,7 @@ Traditional collaborative apps (like Google Docs) use **Operational Transformati
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Frontend**: Next.js 16 (App Router, React 19), Tailwind CSS v4
 - **Editor**: [Tiptap v3](https://tiptap.dev) (`@tiptap/react`, `@tiptap/starter-kit`, `@tiptap/extension-collaboration`, `@tiptap/extension-collaboration-caret`)
@@ -26,7 +26,7 @@ Traditional collaborative apps (like Google Docs) use **Operational Transformati
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### 1. Start the WebSocket Relay Server
 In a terminal:
@@ -46,7 +46,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
-## 🧪 Testing Multiplayer & Offline Features
+## Testing Multiplayer & Offline Features
 
 1. **Multiplayer Test**:
    - Open a document at `http://localhost:3000/doc/<id>` in two separate browser windows (or an incognito window).
