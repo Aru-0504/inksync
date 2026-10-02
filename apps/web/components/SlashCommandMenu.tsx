@@ -26,7 +26,7 @@ const COMMAND_ITEMS: CommandItem[] = [
     id: 'h1',
     title: 'Heading 1',
     subtitle: 'Big section heading',
-    icon: <Heading1Icon size={18} className="text-[#2D2327] dark:text-[#F5EFE6]" />,
+    icon: <Heading1Icon size={18} className="text-[#5D0D18]" />,
     keywords: ['h1', 'heading', 'title', 'big'],
     execute: (editor) => editor.chain().focus().toggleHeading({ level: 1 }).run(),
   },
@@ -34,7 +34,7 @@ const COMMAND_ITEMS: CommandItem[] = [
     id: 'h2',
     title: 'Heading 2',
     subtitle: 'Medium subsection heading',
-    icon: <Heading2Icon size={18} className="text-[#2D2327] dark:text-[#F5EFE6]" />,
+    icon: <Heading2Icon size={18} className="text-[#382D27] dark:text-[#F5EFE6]" />,
     keywords: ['h2', 'heading', 'subtitle', 'medium'],
     execute: (editor) => editor.chain().focus().toggleHeading({ level: 2 }).run(),
   },
@@ -42,15 +42,23 @@ const COMMAND_ITEMS: CommandItem[] = [
     id: 'h3',
     title: 'Heading 3',
     subtitle: 'Small subsection heading',
-    icon: <Heading3Icon size={18} className="text-[#2D2327] dark:text-[#F5EFE6]" />,
+    icon: <Heading3Icon size={18} className="text-[#81785A]" />,
     keywords: ['h3', 'heading', 'small'],
     execute: (editor) => editor.chain().focus().toggleHeading({ level: 3 }).run(),
+  },
+  {
+    id: 'task-list',
+    title: 'Task Checklist',
+    subtitle: 'Collaborative checkbox to-do list',
+    icon: <span className="font-mono text-sm font-bold text-[#5D0D18]">[✓]</span>,
+    keywords: ['task', 'todo', 'check', 'checklist', 'box'],
+    execute: (editor) => editor.chain().focus().toggleTaskList().run(),
   },
   {
     id: 'bullet-list',
     title: 'Bullet List',
     subtitle: 'Simple bulleted list',
-    icon: <ListIcon size={18} className="text-[#96B3CE]" />,
+    icon: <ListIcon size={18} className="text-[#919D85]" />,
     keywords: ['bullet', 'list', 'ul', 'unordered'],
     execute: (editor) => editor.chain().focus().toggleBulletList().run(),
   },
@@ -58,15 +66,28 @@ const COMMAND_ITEMS: CommandItem[] = [
     id: 'numbered-list',
     title: 'Numbered List',
     subtitle: 'Numbered step-by-step list',
-    icon: <ListOrderedIcon size={18} className="text-[#96B3CE]" />,
+    icon: <ListOrderedIcon size={18} className="text-[#919D85]" />,
     keywords: ['numbered', 'list', 'ol', 'ordered', 'step'],
     execute: (editor) => editor.chain().focus().toggleOrderedList().run(),
+  },
+  {
+    id: 'table',
+    title: 'Data Table',
+    subtitle: 'Insert a 3x3 collaborative table',
+    icon: <span className="font-mono text-xs font-bold text-[#8E88A3]">▦</span>,
+    keywords: ['table', 'grid', 'rows', 'columns'],
+    execute: (editor) =>
+      editor
+        .chain()
+        .focus()
+        .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
+        .run(),
   },
   {
     id: 'quote',
     title: 'Quote',
     subtitle: 'Capture a quote or callout',
-    icon: <QuoteIcon size={18} className="text-[#F6DF88]" />,
+    icon: <QuoteIcon size={18} className="text-[#C496A1]" />,
     keywords: ['quote', 'blockquote', 'callout'],
     execute: (editor) => editor.chain().focus().toggleBlockquote().run(),
   },
@@ -74,9 +95,22 @@ const COMMAND_ITEMS: CommandItem[] = [
     id: 'code-block',
     title: 'Code Block',
     subtitle: 'Syntax-friendly code snippet',
-    icon: <CodeIcon size={18} className="text-[#D48C70]" />,
+    icon: <CodeIcon size={18} className="text-[#81785A]" />,
     keywords: ['code', 'codeblock', 'snippet', 'pre'],
     execute: (editor) => editor.chain().focus().toggleCodeBlock().run(),
+  },
+  {
+    id: 'image',
+    title: 'Image',
+    subtitle: 'Embed an image from a URL',
+    icon: <span className="text-sm text-[#919D85]">🖼</span>,
+    keywords: ['image', 'photo', 'picture', 'img'],
+    execute: (editor) => {
+      const url = window.prompt('Enter image URL:')
+      if (url) {
+        editor.chain().focus().setImage({ src: url }).run()
+      }
+    },
   },
   {
     id: 'divider',
@@ -216,9 +250,9 @@ export default function SlashCommandMenu({ editor }: SlashCommandMenuProps) {
         top: `${position.top}px`,
         left: `${position.left}px`,
       }}
-      className="z-50 w-72 max-h-80 overflow-y-auto rounded-2xl border border-[#EDE8E1] bg-white shadow-2xl p-1.5 transition-all text-[#2D2327]"
+      className="z-50 w-72 max-h-80 overflow-y-auto rounded-2xl border border-[#E5DAC2] bg-[#FAF6EE] shadow-2xl p-1.5 transition-all text-[#382D27]"
     >
-      <div className="px-2.5 py-1 text-[11px] font-bold text-[#7D726D] uppercase tracking-wider">
+      <div className="px-2.5 py-1 text-[11px] font-bold text-[#81785A] uppercase tracking-wider">
         Blocks & Formats
       </div>
 
@@ -233,18 +267,18 @@ export default function SlashCommandMenu({ editor }: SlashCommandMenuProps) {
               onClick={() => executeCommand(item)}
               className={`w-full flex items-center gap-3 px-2.5 py-2 rounded-xl text-left transition-colors cursor-pointer ${
                 isSelected
-                  ? 'bg-[#FDFBF7] text-[#2D2327]'
-                  : 'text-[#7D726D] hover:bg-[#FDFBF7]/60'
+                  ? 'bg-[#EBE1C6]/70 text-[#5D0D18]'
+                  : 'text-[#665A4F] hover:bg-[#EBE1C6]/30'
               }`}
             >
-              <div className="w-8 h-8 rounded-lg border border-[#EDE8E1] bg-[#FDFBF7] flex items-center justify-center shrink-0 shadow-2xs">
+              <div className="w-8 h-8 rounded-lg border border-[#E5DAC2] bg-white flex items-center justify-center shrink-0 shadow-2xs">
                 {item.icon}
               </div>
               <div className="flex-1 min-w-0">
-                <div className="text-xs font-bold truncate text-[#2D2327]">
+                <div className="text-xs font-bold truncate text-[#382D27]">
                   {item.title}
                 </div>
-                <div className="text-[11px] text-[#7D726D] truncate">
+                <div className="text-[11px] text-[#81785A] truncate">
                   {item.subtitle}
                 </div>
               </div>

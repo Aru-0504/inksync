@@ -3,16 +3,17 @@ export interface UserIdentity {
   color: string
 }
 
-// Pantone-inspired harmonious palette matching the editorial swatch
+// Vintage Botanical & Editorial Palette from user specification
 const PALETTE = [
-  '#F6DF88', // Pantone Popcorn Yellow
-  '#96B3CE', // Pantone Dusty Sky Blue
-  '#4A3B43', // Pantone Deep Espresso
-  '#D48C70', // Warm Terracotta
-  '#8BA894', // Sage Green
-  '#C0A0BE', // Muted Mauve
-  '#E8B86D', // Warm Ochre
-  '#6B8E9B', // Slate Ocean
+  '#C496A1', // Dusty Rose
+  '#919D85', // Muted Sage
+  '#8E88A3', // Lavender Purple
+  '#5D0D18', // Bloodstone
+  '#81785A', // Antique Bronze
+  '#B5728A', // Thulian Pink
+  '#9FB2AC', // Misty Sage
+  '#933B5B', // Amaranth
+  '#9F9679', // Pomelo Olive
 ]
 
 const ADJECTIVES = [
@@ -43,7 +44,7 @@ const STORAGE_KEY = 'inksync_user_profile'
 
 export function getUserIdentity(): UserIdentity {
   if (typeof window === 'undefined') {
-    return { name: 'Collaborator', color: '#96B3CE' }
+    return { name: 'Collaborator', color: '#C496A1' }
   }
 
   try {

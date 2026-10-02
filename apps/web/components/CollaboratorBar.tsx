@@ -46,9 +46,9 @@ export default function CollaboratorBar({
     for (const label of Array.from(labels)) {
       if (label.textContent?.trim() === name.trim()) {
         label.scrollIntoView({ behavior: 'smooth', block: 'center' })
-        label.classList.add('ring-2', 'ring-[#F6DF88]', 'scale-110')
+        label.classList.add('ring-2', 'ring-[#C496A1]', 'scale-110')
         setTimeout(() => {
-          label.classList.remove('ring-2', 'ring-[#F6DF88]', 'scale-110')
+          label.classList.remove('ring-2', 'ring-[#C496A1]', 'scale-110')
         }, 1200)
         return
       }
@@ -61,10 +61,10 @@ export default function CollaboratorBar({
       <button
         type="button"
         onClick={handleCopyLink}
-        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-xl border border-[#EDE8E1] bg-white text-[#2D2327] hover:bg-[#FDFBF7] transition-all shadow-xs cursor-pointer"
+        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-xl border border-[#E5DAC2] bg-[#FFF9EB] text-[#382D27] hover:bg-[#FAF6EE] transition-all shadow-xs cursor-pointer"
         title="Copy room URL to clipboard"
       >
-        <ShareIcon size={13} className="text-[#7D726D]" />
+        <ShareIcon size={13} className="text-[#81785A]" />
         <span>{copied ? 'Copied link!' : 'Share'}</span>
       </button>
 
@@ -76,7 +76,7 @@ export default function CollaboratorBar({
             type="button"
             onClick={() => handleFollowCollaborator(user.name)}
             title={`Click to jump to ${user.name}'s cursor`}
-            className="group relative inline-flex items-center justify-center w-7 h-7 rounded-full text-[11px] font-bold text-[#2D2327] shadow-xs border-2 border-white transition-transform hover:scale-115 hover:z-20 cursor-pointer"
+            className="group relative inline-flex items-center justify-center w-7 h-7 rounded-full text-[11px] font-bold text-[#382D27] shadow-xs border-2 border-[#FAF6EE] transition-transform hover:scale-115 hover:z-20 cursor-pointer"
             style={{ backgroundColor: user.color }}
           >
             {user.name.charAt(0).toUpperCase()}
@@ -87,7 +87,7 @@ export default function CollaboratorBar({
       {/* Current User Badge & Rename */}
       <div className="flex items-center text-xs">
         {isEditingName ? (
-          <div className="flex items-center gap-1 bg-white p-1.5 rounded-xl border border-[#EDE8E1] shadow-lg z-30">
+          <div className="flex items-center gap-1 bg-[#FFF9EB] p-1.5 rounded-xl border border-[#E5DAC2] shadow-lg z-30">
             <input
               type="text"
               value={tempName}
@@ -96,12 +96,12 @@ export default function CollaboratorBar({
                 if (e.key === 'Enter') handleNameSave()
                 if (e.key === 'Escape') setIsEditingName(false)
               }}
-              className="px-2 py-0.5 text-xs border rounded-lg border-[#EDE8E1] bg-transparent text-[#2D2327] focus:outline-none focus:ring-1 focus:ring-[#F6DF88]"
+              className="px-2 py-0.5 text-xs border rounded-lg border-[#E5DAC2] bg-transparent text-[#382D27] focus:outline-none focus:ring-1 focus:ring-[#5D0D18]"
               autoFocus
             />
             <button
               onClick={handleNameSave}
-              className="text-[11px] px-2.5 py-0.5 rounded-lg bg-[#F6DF88] text-[#2D2327] hover:bg-[#EED066] font-bold cursor-pointer"
+              className="text-[11px] px-2.5 py-0.5 rounded-lg bg-[#5D0D18] text-[#FFF9EB] hover:bg-[#480912] font-bold cursor-pointer"
             >
               Done
             </button>
@@ -113,17 +113,17 @@ export default function CollaboratorBar({
               setTempName(currentUser.name)
               setIsEditingName(true)
             }}
-            className="group inline-flex items-center gap-2 px-2.5 py-1.5 rounded-xl border border-transparent hover:border-[#EDE8E1] hover:bg-white transition-all cursor-pointer"
+            className="group inline-flex items-center gap-2 px-2.5 py-1.5 rounded-xl border border-transparent hover:border-[#E5DAC2] hover:bg-[#FFF9EB] transition-all cursor-pointer"
             title="Click to customize your nickname"
           >
             <span
               className="w-2.5 h-2.5 rounded-full shadow-xs"
               style={{ backgroundColor: currentUser.color }}
             />
-            <span className="font-bold text-[#2D2327] group-hover:text-[#96B3CE]">
+            <span className="font-bold text-[#382D27] group-hover:text-[#5D0D18]">
               {currentUser.name}
             </span>
-            <span className="text-[10px] text-[#AFA69F] font-mono">(You)</span>
+            <span className="text-[10px] text-[#81785A]/70 font-mono">(You)</span>
           </button>
         )}
       </div>

@@ -1,15 +1,18 @@
 @import "tailwindcss";
 
 :root {
-  --background: #fdfbf7;
-  --foreground: #2d2327;
-  --pantone-espresso: #2d2327;
-  --pantone-yellow: #f6df88;
-  --pantone-yellow-hover: #eed066;
-  --pantone-blue: #96b3ce;
-  --pantone-blue-hover: #85a4c0;
+  --background: #faf6ee;
+  --foreground: #382d27;
+  --dusty-rose: #c496a1;
+  --muted-sage: #919d85;
+  --lavender-purple: #8e88a3;
+  --vintage-cream: #ebe1c6;
+  --antique-bronze: #81785a;
+  --vanilla-custard: #fff9eb;
+  --misty-sage: #9fb2ac;
+  --bloodstone: #5d0d18;
   --paper-card: #ffffff;
-  --paper-border: #ede8e1;
+  --paper-border: #e5dac2;
 }
 
 @theme inline {
@@ -20,8 +23,8 @@
 }
 
 body {
-  background: #fdfbf7;
-  color: #2d2327;
+  background: #faf6ee;
+  color: #382d27;
   font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
@@ -33,13 +36,24 @@ body {
 .tiptap {
   outline: none;
   min-height: 480px;
+  color: #382d27;
+}
+
+:is(.dark, [data-theme="dark"]) .tiptap {
+  color: #faf6ee;
+}
+
+@media (prefers-color-scheme: dark) {
+  .tiptap {
+    color: #faf6ee;
+  }
 }
 
 .tiptap p {
   margin: 0.9rem 0;
   line-height: 1.8;
   font-size: 1.05rem;
-  color: #2d2327;
+  color: inherit;
 }
 
 .tiptap h1 {
@@ -49,7 +63,17 @@ body {
   margin-top: 2rem;
   margin-bottom: 0.85rem;
   letter-spacing: -0.03em;
-  color: #2d2327;
+  color: #5d0d18;
+}
+
+:is(.dark, [data-theme="dark"]) .tiptap h1 {
+  color: #e8a598;
+}
+
+@media (prefers-color-scheme: dark) {
+  .tiptap h1 {
+    color: #e8a598;
+  }
 }
 
 .tiptap h2 {
@@ -59,7 +83,7 @@ body {
   margin-top: 1.65rem;
   margin-bottom: 0.6rem;
   letter-spacing: -0.02em;
-  color: #2d2327;
+  color: inherit;
 }
 
 .tiptap h3 {
@@ -69,21 +93,31 @@ body {
   margin-top: 1.35rem;
   margin-bottom: 0.5rem;
   letter-spacing: -0.01em;
-  color: #2d2327;
+  color: #81785a;
+}
+
+:is(.dark, [data-theme="dark"]) .tiptap h3 {
+  color: #d4a373;
+}
+
+@media (prefers-color-scheme: dark) {
+  .tiptap h3 {
+    color: #d4a373;
+  }
 }
 
 .tiptap ul {
   list-style-type: disc;
   padding-left: 1.75rem;
   margin: 0.9rem 0;
-  color: #2d2327;
+  color: inherit;
 }
 
 .tiptap ol {
   list-style-type: decimal;
   padding-left: 1.75rem;
   margin: 0.9rem 0;
-  color: #2d2327;
+  color: inherit;
 }
 
 .tiptap li {
@@ -92,34 +126,49 @@ body {
 }
 
 .tiptap blockquote {
-  border-left: 3.5px solid #96b3ce;
-  background: rgba(150, 179, 206, 0.12);
+  border-left: 3.5px solid #c496a1;
+  background: rgba(196, 150, 161, 0.12);
   padding: 0.75rem 1.25rem;
   border-radius: 0 0.5rem 0.5rem 0;
   margin: 1.5rem 0;
   font-style: italic;
-  color: #4a3b43;
+  color: inherit;
 }
 
 .tiptap code {
   font-family: var(--font-geist-mono), monospace;
-  background-color: rgba(246, 223, 136, 0.35);
-  color: #7a4e0a;
+  background-color: rgba(235, 225, 198, 0.65);
+  color: #5d0d18;
   padding: 0.2rem 0.45rem;
   border-radius: 6px;
   font-size: 0.88em;
-  font-weight: 500;
+  font-weight: 600;
+  border: 1px solid rgba(229, 218, 194, 0.8);
+}
+
+:is(.dark, [data-theme="dark"]) .tiptap code {
+  background-color: rgba(93, 13, 24, 0.35);
+  color: #e8a598;
+  border-color: rgba(196, 150, 161, 0.3);
+}
+
+@media (prefers-color-scheme: dark) {
+  .tiptap code {
+    background-color: rgba(93, 13, 24, 0.35);
+    color: #e8a598;
+    border-color: rgba(196, 150, 161, 0.3);
+  }
 }
 
 .tiptap pre {
-  background: #2d2327;
-  color: #fdfbf7;
+  background: #2a2527;
+  color: #fff9eb;
   font-family: var(--font-geist-mono), monospace;
   padding: 1.15rem 1.4rem;
   border-radius: 0.85rem;
   margin: 1.5rem 0;
   overflow-x: auto;
-  border: 1px solid #ede8e1;
+  border: 1px solid #e5dac2;
 }
 
 .tiptap pre code {
@@ -127,13 +176,170 @@ body {
   color: inherit;
   padding: 0;
   font-size: 0.875rem;
+  border: none;
 }
 
 .tiptap hr {
   border: none;
-  border-top: 1px solid #ede8e1;
+  border-top: 1px solid #e5dac2;
   margin: 2.25rem 0;
 }
+
+/* ==========================================================================
+   Task Lists / Interactive Checkboxes
+   ========================================================================== */
+
+ul[data-type="taskList"] {
+  list-style: none;
+  padding: 0;
+  margin: 0.85rem 0;
+}
+
+ul[data-type="taskList"] li {
+  display: flex;
+  align-items: flex-start;
+  margin: 0.35rem 0;
+  gap: 0.65rem;
+}
+
+ul[data-type="taskList"] li > label {
+  user-select: none;
+  margin-top: 0.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+ul[data-type="taskList"] li > label input[type="checkbox"] {
+  appearance: none;
+  width: 1.15rem;
+  height: 1.15rem;
+  border: 1.5px solid #a8a09b;
+  border-radius: 4px;
+  background-color: #ffffff;
+  cursor: pointer;
+  display: grid;
+  place-content: center;
+  transition: all 0.15s ease;
+}
+
+ul[data-type="taskList"] li > label input[type="checkbox"]:hover {
+  border-color: #5d0d18;
+}
+
+ul[data-type="taskList"] li > label input[type="checkbox"]:checked {
+  background-color: #5d0d18;
+  border-color: #5d0d18;
+}
+
+ul[data-type="taskList"] li > label input[type="checkbox"]:checked::before {
+  content: "";
+  width: 0.55rem;
+  height: 0.55rem;
+  transform: scale(1);
+  background-color: #ffffff;
+  clip-path: polygon(14% 44%, 0 60%, 40% 100%, 100% 18%, 80% 0%, 35% 65%);
+}
+
+ul[data-type="taskList"] li[data-checked="true"] > div {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+ul[data-type="taskList"] li > div {
+  flex: 1 1 auto;
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+   Collaborative Tables
+   ========================================================================== */
+
+.tiptap table {
+  border-collapse: collapse;
+  table-layout: fixed;
+  width: 100%;
+  margin: 1.5rem 0;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid #e5dac2;
+}
+
+.tiptap table td,
+.tiptap table th {
+  min-width: 1em;
+  border: 1px solid #e5dac2;
+  padding: 0.65rem 0.85rem;
+  vertical-align: top;
+  box-sizing: border-box;
+  position: relative;
+  font-size: 0.95rem;
+}
+
+.tiptap table th {
+  font-weight: 600;
+  text-align: left;
+  background-color: rgba(235, 225, 198, 0.45);
+  color: #5d0d18;
+}
+
+.tiptap table .selectedCell:after {
+  z-index: 2;
+  position: absolute;
+  content: "";
+  left: 0; right: 0; top: 0; bottom: 0;
+  background: rgba(196, 150, 161, 0.25);
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   Highlights & Marks
+   ========================================================================== */
+
+mark {
+  background-color: #ebe1c6;
+  color: #382d27;
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+}
+
+mark[data-color="#C496A1"],
+mark[data-color="#c496a1"] {
+  background-color: rgba(196, 150, 161, 0.35);
+  color: #4a2832;
+}
+
+mark[data-color="#919D85"],
+mark[data-color="#919d85"] {
+  background-color: rgba(145, 157, 133, 0.35);
+  color: #2a3524;
+}
+
+mark[data-color="#8E88A3"],
+mark[data-color="#8e88a3"] {
+  background-color: rgba(142, 136, 163, 0.35);
+  color: #2b273b;
+}
+
+mark[data-color="#5D0D18"],
+mark[data-color="#5d0d18"] {
+  background-color: rgba(93, 13, 24, 0.18);
+  color: #5d0d18;
+}
+
+/* ==========================================================================
+   Images
+   ========================================================================== */
+
+.tiptap img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  margin: 1.5rem 0;
+  border: 1px solid #e5dac2;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+}
+
 
 /* ==========================================================================
    Tiptap Collaborative Carets & Cursor Labels
@@ -183,6 +389,29 @@ body {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
+}
+
+@keyframes floatFade {
+  0% {
+    opacity: 0;
+    transform: translateY(12px) scale(0.7);
+  }
+  15% {
+    opacity: 1;
+    transform: translateY(-8px) scale(1.05);
+  }
+  75% {
+    opacity: 1;
+    transform: translateY(-40px) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-70px) scale(0.85);
+  }
+}
+
+.animate-float-fade {
+  animation: floatFade 2.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* ==========================================================================

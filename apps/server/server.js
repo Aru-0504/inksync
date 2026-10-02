@@ -33,10 +33,14 @@ wss.on('connection', async (ws, req) => {
     ydoc._persistenceLoaded = true
 
     // Load previously saved state, if any, and apply it to the fresh doc
-    const savedState = await loadDocState(roomName)
-    if (savedState) {
-      Y.applyUpdate(ydoc, savedState)
-      console.log(`Loaded saved state for room: ${roomName}`)
+    try {
+      const savedState = await loadDocState(roomName)
+      if (savedState) {
+        Y.applyUpdate(ydoc, savedState)
+        console.log(`Loaded saved state for room: ${roomName}`)
+      }
+    } catch (err) {
+      console.warn(`Could not load saved state for ${roomName}:`, err.message)
     }
 
     // Debounced save: wait 2 seconds after the last change before writing to DB,
@@ -45,9 +49,13 @@ wss.on('connection', async (ws, req) => {
     ydoc.on('update', () => {
       clearTimeout(saveTimeout)
       saveTimeout = setTimeout(async () => {
-        const state = Y.encodeStateAsUpdate(ydoc)
-        await saveDocState(roomName, Buffer.from(state))
-        console.log(`Saved state for room: ${roomName}`)
+        try {
+          const state = Y.encodeStateAsUpdate(ydoc)
+          await saveDocState(roomName, Buffer.from(state))
+          console.log(`Saved state for room: ${roomName}`)
+        } catch (err) {
+          console.warn(`Could not save state for ${roomName}:`, err.message)
+        }
       }, 2000)
     })
   }

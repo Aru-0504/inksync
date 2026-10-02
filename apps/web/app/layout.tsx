@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "InkSync — Real-time CRDT Collaborative Editor",
-  description: "Multiplayer rich-text editor powered by Yjs, WebSockets, and PostgreSQL",
+  title: "InkSync",
+  description: "Real-time collaborative document editor",
 };
 
 export default function RootLayout({
@@ -30,7 +30,7 @@ export default function RootLayout({
     >
       <body
         suppressHydrationWarning
-        className="min-h-full flex flex-col bg-[#FDFBF7] text-[#2D2327]"
+        className="min-h-full flex flex-col bg-[#FAF6EE] text-[#382D27]"
       >
         {children}
       </body>

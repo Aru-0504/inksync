@@ -27,14 +27,14 @@ export default function EditorToolbar({ editor }: EditorToolbarProps) {
   const btnClass = (isActive: boolean) =>
     `p-1.5 rounded-lg transition-all flex items-center justify-center cursor-pointer ${
       isActive
-        ? 'bg-[#2D2327] text-[#F6DF88] shadow-xs'
-        : 'text-[#7D726D] hover:bg-[#FDFBF7] hover:text-[#2D2327]'
+        ? 'bg-[#5D0D18] text-[#FFF9EB] shadow-xs'
+        : 'text-[#81785A] hover:bg-[#FAF6EE] hover:text-[#5D0D18]'
     }`
 
-  const divider = <div className="w-px h-4 bg-[#EDE8E1] my-auto mx-1" />
+  const divider = <div className="w-px h-4 bg-[#E5DAC2] my-auto mx-1" />
 
   return (
-    <div className="flex flex-wrap items-center gap-0.5 p-1.5 border border-[#EDE8E1] rounded-2xl bg-white/95 backdrop-blur-md sticky top-3 z-20 shadow-xs mb-6 max-w-fit mx-auto transition-all">
+    <div className="flex flex-wrap items-center gap-0.5 p-1.5 border border-[#E5DAC2] rounded-2xl bg-white/95 backdrop-blur-md sticky top-3 z-20 shadow-xs mb-6 max-w-fit mx-auto transition-all">
       {/* Undo / Redo */}
       <button
         type="button"
@@ -124,6 +124,14 @@ export default function EditorToolbar({ editor }: EditorToolbarProps) {
       {/* Lists & Block formatting */}
       <button
         type="button"
+        onClick={() => editor.chain().focus().toggleTaskList().run()}
+        className={btnClass(editor.isActive('taskList'))}
+        title="Task Checklist"
+      >
+        <span className="text-[12px] font-bold font-mono">[✓]</span>
+      </button>
+      <button
+        type="button"
         onClick={() => editor.chain().focus().toggleBulletList().run()}
         className={btnClass(editor.isActive('bulletList'))}
         title="Bullet List (-)"
@@ -153,6 +161,47 @@ export default function EditorToolbar({ editor }: EditorToolbarProps) {
         title="Code Block (```)"
       >
         <span className="text-[11px] font-mono px-1 font-bold">{'{ }'}</span>
+      </button>
+
+      {divider}
+
+      {/* Advanced Elements: Table, Image, Highlight */}
+      <button
+        type="button"
+        onClick={() =>
+          editor
+            .chain()
+            .focus()
+            .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
+            .run()
+        }
+        className={btnClass(editor.isActive('table'))}
+        title="Insert Table (3x3)"
+      >
+        <span className="text-xs">▦</span>
+      </button>
+      <button
+        type="button"
+        onClick={() => {
+          const url = window.prompt('Enter image URL:')
+          if (url) {
+            editor.chain().focus().setImage({ src: url }).run()
+          }
+        }}
+        className="p-1.5 rounded-lg text-[#7D726D] dark:text-[#AFA69F] hover:bg-[#FAF7F2] dark:hover:bg-[#1C1619] transition-colors cursor-pointer"
+        title="Insert Image"
+      >
+        <span className="text-xs">🖼</span>
+      </button>
+      <button
+        type="button"
+        onClick={() => editor.chain().focus().toggleHighlight({ color: '#C496A1' }).run()}
+        className={btnClass(editor.isActive('highlight'))}
+        title="Highlight Text (Dusty Rose)"
+      >
+        <span className="px-1 py-0.5 rounded text-[10px] font-bold bg-[#C496A1] text-white">
+          H
+        </span>
       </button>
       <button
         type="button"

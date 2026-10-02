@@ -13,6 +13,14 @@ export interface DocumentRow {
   updated_at: string
 }
 
+export interface DocumentVersionRow {
+  id: number
+  room_id: string
+  version_name: string
+  author_name: string
+  created_at: string
+}
+
 let tableInitialized = false
 
 async function ensureTable() {
@@ -25,7 +33,15 @@ async function ensureTable() {
         state BYTEA,
         created_at TIMESTAMPTZ DEFAULT now(),
         updated_at TIMESTAMPTZ DEFAULT now()
-      )
+      );
+      CREATE TABLE IF NOT EXISTS document_versions (
+        id SERIAL PRIMARY KEY,
+        room_id TEXT NOT NULL,
+        version_name TEXT NOT NULL,
+        state BYTEA NOT NULL,
+        author_name TEXT,
+        created_at TIMESTAMPTZ DEFAULT now()
+      );
     `)
     tableInitialized = true
   } catch (err) {
@@ -99,7 +115,92 @@ export async function deleteDocument(roomId: string) {
       `DELETE FROM documents WHERE room_id = $1`,
       [roomId]
     )
+    await pool.query(
+      `DELETE FROM document_versions WHERE room_id = $1`,
+      [roomId]
+    )
   } catch (err) {
     console.error('Failed to delete document from DB:', err)
+  }
+}
+
+export async function createDocumentVersion(
+  roomId: string,
+  versionName: string,
+  authorName: string = 'Anonymous'
+): Promise<DocumentVersionRow | null> {
+  await ensureTable()
+  try {
+    const docRes = await pool.query(
+      `SELECT state FROM documents WHERE room_id = $1`,
+      [roomId]
+    )
+    const state = docRes.rows[0]?.state
+    if (!state) return null
+
+    const result = await pool.query(
+      `INSERT INTO document_versions (room_id, version_name, state, author_name)
+       VALUES ($1, $2, $3, $4)
+       RETURNING id, room_id, version_name, author_name, created_at`,
+      [roomId, versionName, state, authorName]
+    )
+    return result.rows[0]
+  } catch (err) {
+    console.error('Failed to create version in DB:', err)
+    return null
+  }
+}
+
+export async function listDocumentVersions(roomId: string): Promise<DocumentVersionRow[]> {
+  await ensureTable()
+  try {
+    const result = await pool.query(
+      `SELECT id, room_id, version_name, author_name, created_at
+       FROM document_versions
+       WHERE room_id = $1
+       ORDER BY created_at DESC`,
+      [roomId]
+    )
+    return result.rows
+  } catch (err) {
+    console.error('Failed to list versions from DB:', err)
+    return []
+  }
+}
+
+export async function getDocumentVersionState(versionId: number): Promise<Buffer | null> {
+  await ensureTable()
+  try {
+    const result = await pool.query(
+      `SELECT state FROM document_versions WHERE id = $1`,
+      [versionId]
+    )
+    return result.rows[0]?.state || null
+  } catch (err) {
+    console.error('Failed to get version state from DB:', err)
+    return null
+  }
+}
+
+export async function restoreDocumentVersion(roomId: string, versionId: number): Promise<boolean> {
+  await ensureTable()
+  try {
+    const verRes = await pool.query(
+      `SELECT state FROM document_versions WHERE id = $1 AND room_id = $2`,
+      [versionId, roomId]
+    )
+    const state = verRes.rows[0]?.state
+    if (!state) return false
+
+    await pool.query(
+      `UPDATE documents
+       SET state = $2, updated_at = now()
+       WHERE room_id = $1`,
+      [roomId, state]
+    )
+    return true
+  } catch (err) {
+    console.error('Failed to restore document version:', err)
+    return false
   }
 }

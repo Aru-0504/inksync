@@ -1,5 +1,8 @@
-node_module/ 
-.next/ 
-.env 
-.env.local 
+node_modules/
+node_module/
+.next/
+.env
+.env.local
+.env.*.local
 powershell.cmd
+*.log
